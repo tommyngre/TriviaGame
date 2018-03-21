@@ -1,5 +1,4 @@
-var qna =
-  [
+var qna = [
     q1 = {
       key: "1",
       q: "who suffered worst at the hands of togers?'",
@@ -29,9 +28,8 @@ var game = {
   time: 5,
   intervalId: '',
   new: function () {
-    this.start();
     game.qna = qna;
-    console.log(game.qna);
+    this.start();
   },
   start: function () {
     game.intervalId = setInterval(game.ticktock, 1000);
@@ -39,7 +37,7 @@ var game = {
   },
   ticktock: function () {
     if (game.time === 1) {
-      $("#t").html("<h2>" + 0 + "</h2>");
+      $("#t").html("<h2>0</h2>");
       game.stop();
     }
     game.time--;
@@ -53,7 +51,6 @@ var game = {
   evalNext: function () {
     if (this.numQs > 1) {
       this.numQs--;
-      console.log("qs left:" + this.numQs);
       game.load();
       game.handle(); // send with "dingdingding" var
     } else {
@@ -61,19 +58,17 @@ var game = {
     }
   },
   load: function () {
-    var rnd = Math.round(Math.random() * game.qna.length);
-    console.log(game.qna);
-    console.log(rnd);
-    var q = game.qna[rnd];
-    console.log(q.q);
-  //   var html = `<h1>${q.q}</h1>`;
-  //   $("#q").html(html);
-  //   for (i=0; i<game.qsAndAs.length; i++){
-  //     var ans = $("<div>");
-  //     ans.textContent = game.qsAndAs.wrongs[i];
-  //     $("#a").append(ans);
-  //   }
-  //   $("#a").html(html);
+    var rnd = Math.floor(Math.random() * game.qna.length);
+    var q = this.qna[rnd];
+    console.log(q);
+    console.log(q.q);    
+    var html = `<h1>${q.q}</h1>`;
+    $("#q").html(html);
+    for (i=0; i<q.wrongs.length; i++){
+      var ans = $("<div>");
+      ans.textContent = q.wrongs[i];
+      $("#a").append(ans);
+    }
   },
   handle: function () {
     //define later
