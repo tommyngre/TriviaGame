@@ -11,33 +11,46 @@ var qna = [
   },
   q2 = {
     key: "2",
-    q: "who took care of bimp after his injury in Iowa",
+    q: "who took care of bimp after his injury in Iowa?",
     a: "Toger",
     wrongs: [
       "bramp",
       "lort",
       "big den"
     ]
+  },
+  q3 = {
+    key: "3",
+    q: "who started a movement after getting dunked on?",
+    a: "bruise",
+    wrongs: [
+      "glen",
+      "chief",
+      "bimp"
+    ]
   }
 ]
 
 
 var game = {
-  numQs: 10,
+  numQs: 5,
   qna: [],
-  time: 5,
+  time: 10,
   intervalId: '',
   new: function () {
     game.qna = qna;
-
+    this.bounceIn("#welcome-wrapper");
     //just load qs right away for now
-    this.load();
+    $("body").on("click", "#start", function(){
+      game.start();
+      game.bounceOut("#welcome-wrapper");
+      game.bounceIn("#question-wrapper");
+    });
     ///later on will be an on/click -> start()
-    //this.start();
   },
   start: function () {
     game.intervalId = setInterval(game.ticktock, 1000);
-    this.load();
+    this.loadQs();
   },
   ticktock: function () {
     if (game.time === 1) {
@@ -55,31 +68,34 @@ var game = {
   evalNext: function () {
     if (this.numQs > 1) {
       this.numQs--;
-      game.load();
+      game.loadQs();
       game.handle(); // send with "dingdingding" var
     } else {
       //gameover
     }
   },
-  load: function () {
+  loadQs: function () {
+    $("#t").html(`<h2>${game.time}</h2>`);
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
     //send q to have answers shuffled
-    this.shuffleAry(q);
+    game.shuffleAry(q);
 
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
 
     //don't love this...
     ///but for now correct ans will have id "a"
+    ///or maybe data() attr?
     q.wrongs.forEach(answer => {
       if (answer == q.a){
-        var ans = $(`<div id="a">`);        
+        var ans = $(`<div class="ans" id="a">`)
+        .data("truthy",true);        
       } else {
-        var ans = $(`<div id="b">`);        
+        var ans = $(`<div class="ans" id="b">`)
+        .data("truthy",false);        
       }
       ans.text(answer);
-      console.log(ans);
       $("#a").append(ans);
     });
   },
@@ -92,6 +108,20 @@ var game = {
       let j = Math.floor(Math.random() * (i + 1));
       [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
     }
+  },
+  bounceIn: function (div) {
+    setTimeout(function () {
+      $(div).addClass("animated bounceInDown")
+        .css("display", "block")
+    }, 1000);
+  },
+  bounceOut: function (div) {
+    $(div).removeClass("bounceInDown")
+      .addClass("animated bounceOutUp");
+    setTimeout(function () {
+      $(div).removeClass("bounceOutUp")
+      $(div).css("display", "none");
+    }, 1000);
   },
   handle: function () {
     //define later
