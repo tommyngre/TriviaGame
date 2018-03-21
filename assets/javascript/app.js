@@ -60,13 +60,12 @@ var game = {
   load: function () {
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
-    console.log(q);
-    console.log(q.q);    
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
     for (i=0; i<q.wrongs.length; i++){
-      var ans = $("<div>");
-      ans.textContent = q.wrongs[i];
+      var ans = $(`<div id="${i}">`);
+      ans.innerHTML = q.wrongs[i];
+      console.log(ans);
       $("#a").append(ans);
     }
   },
