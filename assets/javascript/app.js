@@ -1,7 +1,7 @@
 var qna = [
   q1 = {
     key: "1",
-    q: "who suffered worst at the hands of togers?'",
+    q: "who suffered worst at the hands of togers?",
     a: "ernie",
     wrongs: [
       "bimp",
@@ -35,69 +35,79 @@ var qna = [
 var game = {
   numQs: 5,
   qna: [],
-  time: 10,
+  time: 5,
+  t: '',
   intervalId: '',
   new: function () {
+    //copy in dictionary var
     game.qna = qna;
+
+    //drop in welcome screent
     this.bounceIn("#welcome-wrapper");
-    //just load qs right away for now
-    $("body").on("click", "#start", function(){
-      game.start();
+    $("body").on("click", "#start", function () {
       game.bounceOut("#welcome-wrapper");
       game.bounceIn("#question-wrapper");
+      game.eval();
     });
-    ///later on will be an on/click -> start()
   },
-  start: function () {
-    game.intervalId = setInterval(game.ticktock, 1000);
-    this.loadQs();
+  startTheClock: function () {
+    this.t = this.time + 1;
+    this.intervalId = setInterval(game.ticktock, 1000);
   },
   ticktock: function () {
-    if (game.time === 1) {
+    if (game.t === 1) {
       $("#t").html("<h2>0</h2>");
-      game.stop();
+      game.stopTheClock();
     }
-    game.time--;
-    $("#t").html("<h2>" + game.time + "</h2>");
+    game.t--;
+    $("#t").html("<h2>" + game.t + "</h2>");
   },
-  stop: function () {
-    clearInterval(game.intervalId);
-    this.evalNext();
-    this.handle() // send with "womp" var
+  stopTheClock: function () {
+    clearInterval(this.intervalId);
   },
-  evalNext: function () {
-    if (this.numQs > 1) {
+  eval: function () {
+    if (this.numQs > 0) {
       this.numQs--;
-      game.loadQs();
-      game.handle(); // send with "dingdingding" var
+      this.loadQs();
+      //game.handle(); // send with "dingdingding" var
     } else {
+      this.stopTheClock();
+      this.bounceOut("#question-wrapper");
+      setTimeout(function(){
+        game.bounceIn("#results-wrapper");
+      })
       //gameover
     }
   },
   loadQs: function () {
-    $("#t").html(`<h2>${game.time}</h2>`);
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
+
+    console.log("before shuffle");
+    console.log(q.wrongs);
+
     //send q to have answers shuffled
     game.shuffleAry(q);
-
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
 
-    //don't love this...
-    ///but for now correct ans will have id "a"
-    ///or maybe data() attr?
+    console.log("after shuffle");
+    console.log(q.wrongs);
+
     q.wrongs.forEach(answer => {
-      if (answer == q.a){
-        var ans = $(`<div class="ans" id="a">`)
-        .data("truthy",true);        
+      var ans;
+      if (answer == q.a) {
+        ans = $(`<button data-truthy="1" class="btn btn-outline-primary" id="a">`);
       } else {
-        var ans = $(`<div class="ans" id="b">`)
-        .data("truthy",false);        
+        ans = $(`<button data-truthy="0" class="btn btn-outline-primary" id="b">`)
+          .data("truthy", "0");
       }
       ans.text(answer);
       $("#a").append(ans);
     });
+
+    game.startTheClock();
+    game.handle();
   },
   shuffleAry: function (q) {
     ///push q.a to q.wrongs
@@ -124,9 +134,40 @@ var game = {
     }, 1000);
   },
   handle: function () {
-    //define later
-  }
+    //correct answ
+    $('[data-truthy="1"]').on("click", function () {
+      selection = true;
+      game.cleanupQ()
+    })
+    //incorrect ans
+    $('[data-truthy="0"]').on("click", function () {
+      console.log("wompwomp");
+      selection = true;
+      game.cleanupQ()
+    })
+    //next/skip
+    $("#next").on("click", function () {
+      console.log("clicked next");
+      selection = true;
+      game.cleanupQ()
+    })
+  },
+  cleanupQ: function () {
+    game.stopTheClock();
+    this.bounceOut("#question-wrapper");
+    setTimeout(function () {
+      $("#a").text("");
+      game.bounceIn("#question-wrapper");
+      game.eval();
+    }, 500);
+  },
 }
+
+
+
+
+
+
 
 $(document).ready(function () {
   game.new();
