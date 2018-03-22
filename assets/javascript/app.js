@@ -114,10 +114,16 @@ var game = {
     q.wrongs.push(q.a);
     //randomize so not always in same order
     ///h/t stackoverflow how to do w ES6
-    for (let i = q.wrongs.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
+    for (var i = q.wrongs.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
       [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
     }
+
+    // previous loop => duplicates for some reason
+    /// this deduplicates
+    q.wrongs = Array.from(new Set(q.wrongs));
+
+
   },
   bounceIn: function (div) {
     setTimeout(function () {
@@ -163,12 +169,29 @@ var game = {
   },
 }
 
+function test(){
+    var rnd = Math.floor(Math.random() * game.qna.length);
+    var q = qna[rnd];
+    q.wrongs.push(q.a);
 
+    console.log(q.wrongs);
+    //randomize so not always in same order
+    ///h/t stackoverflow how to do w ES6
+    for (var i = q.wrongs.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i+1));
+      console.log(i + " " + j);
+      [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
+    }
+    console.log(q.wrongs);
 
+    q.wrongs = Array.from(new Set(q.wrongs));
 
-
-
+    console.log(q.wrongs);
+}
 
 $(document).ready(function () {
   game.new();
+  $("#test").on("click", function(){
+    test();
+  })
 })
