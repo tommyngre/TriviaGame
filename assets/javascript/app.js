@@ -58,6 +58,7 @@ var game = {
     if (game.t === 1) {
       $("#t").html("<h2>0</h2>");
       game.stopTheClock();
+      game.handle("skip");
     }
     game.t--;
     $("#t").html("<h2>" + game.t + "</h2>");
@@ -139,7 +140,12 @@ var game = {
       $(div).css("display", "none");
     }, 1000);
   },
-  handle: function () {
+  handle: function (instruction) {
+
+    if (instruction == "skip"){
+      game.cleanupQ();
+    }
+
     //correct answ
     $('[data-truthy="1"]').on("click", function () {
       selection = true;
