@@ -31,16 +31,20 @@ var qna = [
   }
 ]
 
+var numberQuestions = 5;
 
 var game = {
-  numQs: 5,
+  numQs: '',
   qna: [],
   time: 5,
   t: '',
   intervalId: '',
   new: function () {
-    //copy in dictionary var
-    game.qna = qna;
+    //copy in dictionary vars
+    this.t='';
+    this.qna = qna;
+    this.numQs = numberQuestions;
+    this.stopTheClock();
 
     //drop in welcome screent
     this.bounceIn("#welcome-wrapper");
@@ -57,7 +61,6 @@ var game = {
   ticktock: function () {
     if (game.t === 1) {
       $("#t").html("<h2>0</h2>");
-      game.stopTheClock();
       game.handle("skip");
     }
     game.t--;
@@ -72,6 +75,7 @@ var game = {
       this.loadQs();
       //game.handle(); // send with "dingdingding" var
     } else {
+      console.log("ssssss");
       this.stopTheClock();
       this.bounceOut("#question-wrapper");
       setTimeout(function(){
@@ -84,7 +88,6 @@ var game = {
   wait: function(){
     $("body").on("click", "#try-again", function(){
       game.bounceOut("#results-wrapper");
-      
       //todo: cleanup needs to happen here
       
       game.new();
@@ -173,6 +176,12 @@ var game = {
     setTimeout(function () {
       $(div).removeClass("bounceOutUp")
       $(div).css("display", "none");
+
+      if (div == "#results-wrapper"){
+        $("#results").text(""); 
+      }
+
+
     }, 1000);
   },
   handle: function (instruction) {
@@ -210,25 +219,25 @@ var game = {
   },
 }
 
-function test(){
-    var rnd = Math.floor(Math.random() * game.qna.length);
-    var q = qna[rnd];
-    q.wrongs.push(q.a);
+// function test(){
+//     var rnd = Math.floor(Math.random() * game.qna.length);
+//     var q = qna[rnd];
+//     q.wrongs.push(q.a);
 
-    console.log(q.wrongs);
-    //randomize so not always in same order
-    ///h/t stackoverflow how to do w ES6
-    for (var i = q.wrongs.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i+1));
-      console.log(i + " " + j);
-      [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
-    }
-    console.log(q.wrongs);
+//     console.log(q.wrongs);
+//     //randomize so not always in same order
+//     ///h/t stackoverflow how to do w ES6
+//     for (var i = q.wrongs.length - 1; i > 0; i--) {
+//       var j = Math.floor(Math.random() * (i+1));
+//       console.log(i + " " + j);
+//       [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
+//     }
+//     console.log(q.wrongs);
 
-    q.wrongs = Array.from(new Set(q.wrongs));
+//     q.wrongs = Array.from(new Set(q.wrongs));
 
-    console.log(q.wrongs);
-}
+//     console.log(q.wrongs);
+// }
 
 $(document).ready(function () {
   game.new();
