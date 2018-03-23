@@ -76,24 +76,34 @@ var game = {
       this.bounceOut("#question-wrapper");
       setTimeout(function(){
         game.bounceIn("#results-wrapper");
+        game.wait();
       })
       //gameover
     }
+  },
+  wait: function(){
+    $("body").on("click", "#try-again", function(){
+      game.bounceOut("#results-wrapper");
+      
+      //todo: cleanup needs to happen here
+      
+      game.new();
+    })
   },
   loadQs: function () {
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
 
-    console.log("before shuffle");
-    console.log(q.wrongs);
+    // console.log("before shuffle");
+    // console.log(q.wrongs);
 
     //send q to have answers shuffled
     game.shuffleAry(q);
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
 
-    console.log("after shuffle");
-    console.log(q.wrongs);
+    // console.log("after shuffle");
+    // console.log(q.wrongs);
 
     q.wrongs.forEach(answer => {
       var ans;
@@ -107,9 +117,34 @@ var game = {
       $("#a").append(ans);
     });
 
+    game.writeResult(q);
+
     game.startTheClock();
     game.handle();
   },
+  writeResult: function(q){
+    var ques = $("<div class='container mx-auto review-q'>").text(q.q); 
+    
+    var answers = $("<div class='row review-q-ans-wrap'>");
+
+    ques.append(answers);
+
+    q.wrongs.forEach(answer => {
+      var ans = $("<div class='btn'>")
+      .text(answer);
+
+      if (answer == q.a){
+        ans.addClass("review-q-ans-correct");
+      } else {
+        ans.addClass("review-q-ans");
+      }
+
+      answers.append(ans);      
+    })
+
+    $("#results").append(ques);
+  }
+  ,
   shuffleAry: function (q) {
     ///push q.a to q.wrongs
     q.wrongs.push(q.a);
