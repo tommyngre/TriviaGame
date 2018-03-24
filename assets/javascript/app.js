@@ -38,14 +38,12 @@ var qna = [
   },
   q4 = {
     key: "4",
-    q: "whose ex-step-dad is ernie?",
-    a: "bruise",
+    q: "who isn't part of the trinity?",
+    a: "cardinal",
     wrongs: [
-      "glen",
-      "big den",
-      "bimp",
-      "bramp",
-      "lort"
+      "priest",
+      "bruise",
+      "chief",
     ]
   },
   q5 = {
@@ -67,7 +65,6 @@ var qna = [
     wrongs: [
       "fire",
       "burial",
-      "gunshot",
       "stabbing"
     ]
   },
@@ -116,20 +113,34 @@ var qna = [
       "bruise",
       "whitey"
     ]
+  },
+  q11 = {
+    key: "11",
+    q: "who stabbed whitey?",
+    a: "bap",
+    wrongs: [
+      "bruise",
+      "chief",
+      "one of bruise's girls",
+      "a flapjack",
+      "unknown",
+      "whitey herself"
+    ]
   }
 ]
 
 var numberQuestions = 5;
+var numberSeconds = 10;
 
 var score = document.getElementById("score");
 var total = document.getElementById("total");
 
 var game = {
-  numQs: '',
+  numQs: numberQuestions,
   score:0,
   qna: [],
   q:'',
-  time: 5,
+  time: numberSeconds,
   t: '',
   intervalId: '',
   new: function () {
