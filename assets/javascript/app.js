@@ -60,7 +60,7 @@ var game = {
   ticktock: function () {
     if (game.t === 1) {
       $("#t").html("<h2>0</h2>");
-      game.handle("skip");
+      game.handle("", "skip");
     }
     game.t--;
     $("#t").html("<h2>" + game.t + "</h2>");
@@ -115,12 +115,12 @@ var game = {
       $("#a").append(ans);
     });
 
-    game.writeResult(q);
+    //game.writeResult(q);
 
     game.startTheClock();
-    game.handle();
+    game.handle(q, "");
   },
-  writeResult: function(q){
+  writeResult: function(q, selection){
     var ques = $("<div class='container mx-auto review-q'>").text(q.q); 
     
     var answers = $("<div class='row review-q-ans-wrap'>");
@@ -179,7 +179,7 @@ var game = {
 
     }, 1000);
   },
-  handle: function (instruction) {
+  handle: function (q, instruction) {
 
     if (instruction == "skip"){
       game.cleanupQ();
@@ -189,17 +189,28 @@ var game = {
     $('[data-truthy="1"]').on("click", function () {
       //send user's answer to writeResult()
       ///so user's correct ans displays on review pg
+      var selection = this.textContent;
+      game.writeResult(q, selection)
+
       //++ game level var
+
+      //move on
       game.cleanupQ()
     })
     //incorrect ans
     $('[data-truthy="0"]').on("click", function () {
       //send user's answer to writeResult()
       ///so user's incorrect ans displays on review pg
+      var selection = this.textContent;
+      game.writeResult(q, selection)
+
       game.cleanupQ()
     })
     //next/skip
     $("#next").on("click", function () {
+      //just send q; no need to send collection
+      game.writeResult(q, "");
+
       game.cleanupQ()
     })
   },
