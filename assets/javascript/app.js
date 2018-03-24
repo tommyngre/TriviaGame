@@ -44,7 +44,6 @@ var game = {
     this.t='';
     this.qna = qna;
     this.numQs = numberQuestions;
-    this.stopTheClock();
 
     //drop in welcome screent
     this.bounceIn("#welcome-wrapper");
@@ -55,6 +54,7 @@ var game = {
     });
   },
   startTheClock: function () {
+    console.log("sttttttart",this);
     this.t = this.time + 1;
     this.intervalId = setInterval(game.ticktock, 1000);
   },
@@ -67,15 +67,19 @@ var game = {
     $("#t").html("<h2>" + game.t + "</h2>");
   },
   stopTheClock: function () {
+    console.log("stooooooooop", this)
     clearInterval(this.intervalId);
   },
   eval: function () {
+    this.stopTheClock();
+    $("#a").text("");
+
     if (this.numQs > 0) {
       this.numQs--;
       this.loadQs();
       //game.handle(); // send with "dingdingding" var
     } else {
-      console.log("ssssss");
+      console.log("sssssss",this);
       this.stopTheClock();
       this.bounceOut("#question-wrapper");
       setTimeout(function(){
@@ -209,7 +213,6 @@ var game = {
     })
   },
   cleanupQ: function () {
-    game.stopTheClock();
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
