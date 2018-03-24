@@ -126,6 +126,19 @@ var qna = [
       "unknown",
       "whitey herself"
     ]
+  },
+  q12 = {
+    key: "12",
+    q: "what does the 'G' in T.O.G.E.R. stand for?",
+    a: "googly",
+    wrongs: [
+      "greater",
+      "grand",
+      "gregarious",
+      "gargantuan",
+      "gimpy",
+      "garrulous"
+    ]
   }
 ]
 
