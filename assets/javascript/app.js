@@ -33,9 +33,14 @@ var qna = [
 
 var numberQuestions = 5;
 
+var score = document.getElementById("score");
+var total = document.getElementById("total");
+
 var game = {
   numQs: '',
+  score:0,
   qna: [],
+  q:'',
   time: 5,
   t: '',
   intervalId: '',
@@ -43,7 +48,9 @@ var game = {
     //copy in dictionary vars
     this.t = '';
     this.qna = qna;
+    this.q = '';
     this.numQs = numberQuestions;
+    this.score = 0;
 
     //drop in welcome screent
     this.bounceIn("#welcome-wrapper");
@@ -60,26 +67,28 @@ var game = {
   ticktock: function () {
     if (game.t === 1) {
       $("#t").html("<h2>0</h2>");
-      game.handle("", "skip");
+      game.handle(game.q, "skip");
     }
     game.t--;
     $("#t").html("<h2>" + game.t + "</h2>");
   },
   stopTheClock: function () {
+    console.log("stop");
     clearInterval(this.intervalId);
   },
   eval: function () {
+    console.log("eval");
     this.stopTheClock();
     $("#a").text("");
 
     if (this.numQs > 0) {
       this.numQs--;
       this.loadQs();
-      //game.handle(); // send with "dingdingding" var
     } else {
-      this.stopTheClock();
       this.bounceOut("#question-wrapper");
       setTimeout(function () {
+        score.textContent=game.score;
+        total.textContent=numberQuestions;
         game.bounceIn("#results-wrapper");
         game.wait();
       })
@@ -89,16 +98,17 @@ var game = {
   wait: function () {
     $("body").on("click", "#try-again", function () {
       game.bounceOut("#results-wrapper");
-      //todo: cleanup needs to happen here
+      //cleanup here?
 
       game.new();
     })
   },
   loadQs: function () {
+    //get a random q from dictionary ary
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
 
-    //send q to have answers shuffled
+    //shuffle and draw answers
     game.shuffleAry(q);
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
@@ -115,7 +125,8 @@ var game = {
       $("#a").append(ans);
     });
 
-    //game.writeResult(q);
+    //set settled q to game var
+    game.q = q;
 
     game.startTheClock();
     game.handle(q, "");
@@ -144,13 +155,11 @@ var game = {
           ans.addClass("review-q-ans");
         }
       }
-
       answers.append(ans);
     })
 
     $("#results").append(ques);
-  }
-  ,
+  },
   shuffleAry: function (q) {
     ///push q.a to q.wrongs
     q.wrongs.push(q.a);
@@ -171,7 +180,7 @@ var game = {
     setTimeout(function () {
       $(div).addClass("animated bounceInDown")
         .css("display", "block")
-    }, 1000);
+    }, 600);
   },
   bounceOut: function (div) {
     $(div).removeClass("bounceInDown")
@@ -183,78 +192,58 @@ var game = {
       if (div == "#results-wrapper") {
         $("#results").text("");
       }
-
-
-    }, 1000);
+    }, 600);
   },
   handle: function (q, instruction) {
 
+    //if timer runs out
     if (instruction == "skip") {
+      console.log("skip");
+      game.writeResult(q, "null");
       game.cleanupQ();
     }
 
     //correct answ
     $('[data-truthy="1"]').on("click", function () {
-      //send user's answer to writeResult()
-      ///so user's correct ans displays on review pg
       var selection = this.textContent;
-      game.writeResult(q, selection)
-
+      game.writeResult(q, selection);
       //++ game level var
-
+      game.score++;
       //move on
       game.cleanupQ()
     })
+
     //incorrect ans
     $('[data-truthy="0"]').on("click", function () {
-      //send user's answer to writeResult()
-      ///so user's incorrect ans displays on review pg
       var selection = this.textContent;
       game.writeResult(q, selection)
-
       game.cleanupQ()
     })
-    //next/skip
-    $("#next").on("click", function () {
-      //just send q; no need to send collection
-      game.writeResult(q, "");
 
-      game.cleanupQ()
+    //next/skip
+    $("#next").unbind('click').on("click", function () {
+      console.log("next");
+      game.writeResult(q, "null");
+      game.cleanupQ();
     })
   },
   cleanupQ: function () {
+    console.log("cleanup");
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
       game.bounceIn("#question-wrapper");
       game.eval();
-    }, 500);
+    }, 600);
   },
 }
 
 // function test(){
-//     var rnd = Math.floor(Math.random() * game.qna.length);
-//     var q = qna[rnd];
-//     q.wrongs.push(q.a);
-
-//     console.log(q.wrongs);
-//     //randomize so not always in same order
-//     ///h/t stackoverflow how to do w ES6
-//     for (var i = q.wrongs.length - 1; i > 0; i--) {
-//       var j = Math.floor(Math.random() * (i+1));
-//       console.log(i + " " + j);
-//       [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
-//     }
-//     console.log(q.wrongs);
-
-//     q.wrongs = Array.from(new Set(q.wrongs));
-
-//     console.log(q.wrongs);
 // }
 
 $(document).ready(function () {
   game.new();
   $("#test").on("click", function () {
-    test();
+    // test();
   })
 })
