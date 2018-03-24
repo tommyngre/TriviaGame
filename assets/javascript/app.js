@@ -1,3 +1,5 @@
+//remove q from game.qna after asked
+
 var qna = [
   q1 = {
     key: "1",
@@ -6,7 +8,8 @@ var qna = [
     wrongs: [
       "bimp",
       "bramp",
-      "Toger"
+      "Toger",
+      "glen"
     ]
   },
   q2 = {
@@ -16,7 +19,9 @@ var qna = [
     wrongs: [
       "bramp",
       "lort",
-      "big den"
+      "big den",
+      "priest",
+      "bap"
     ]
   },
   q3 = {
@@ -26,7 +31,90 @@ var qna = [
     wrongs: [
       "glen",
       "chief",
+      "bimp",
+      "chief",
+      "lort"
+    ]
+  },
+  q4 = {
+    key: "4",
+    q: "whose ex-step-dad is ernie?",
+    a: "bruise",
+    wrongs: [
+      "glen",
+      "big den",
+      "bimp",
+      "bramp",
+      "lort"
+    ]
+  },
+  q5 = {
+    key: "5",
+    q: "whose ex-step-dad is ernie?",
+    a: "big den",
+    wrongs: [
+      "glen",
+      "bruise",
+      "bimp",
+      "bramp",
+      "lort"
+    ]
+  },
+  q6 = {
+    key: "6",
+    q: "which injury did lorraine not suffer?",
+    a: "car accident",
+    wrongs: [
+      "fire",
+      "burial",
+      "gunshot",
+      "stabbing"
+    ]
+  },
+  q7 = {
+    key: "7",
+    q: "who envied priest for giving Toger communion?",
+    a: "card",
+    wrongs: [
+      "bramp",
+      "lort",
       "bimp"
+    ]
+  },
+  q8 = {
+    key: "8",
+    q: "who secretly visited bramp at his engagement party?",
+    a: "ernie",
+    wrongs: [
+      "glen",
+      "bruise",
+      "priest",
+      "chief",
+      "jane"
+    ]
+  },
+  q9 = {
+    key: "9",
+    q: "whose burka fell off as bramp and toger drove past?",
+    a: "glen",
+    wrongs: [
+      "big den",
+      "jane",
+      "lorraine",
+      "lort",
+      "a flapjack"
+    ]
+  },
+  q10 = {
+    key: "10",
+    q: "who was known as 'the flapjack pimp'?",
+    a: "bimp",
+    wrongs: [
+      "big den",
+      "bramp",
+      "chief",
+      "bruise",
+      "whitey"
     ]
   }
 ]
