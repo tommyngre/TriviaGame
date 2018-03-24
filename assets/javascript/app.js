@@ -54,7 +54,6 @@ var game = {
     });
   },
   startTheClock: function () {
-    console.log("sttttttart",this);
     this.t = this.time + 1;
     this.intervalId = setInterval(game.ticktock, 1000);
   },
@@ -67,7 +66,6 @@ var game = {
     $("#t").html("<h2>" + game.t + "</h2>");
   },
   stopTheClock: function () {
-    console.log("stooooooooop", this)
     clearInterval(this.intervalId);
   },
   eval: function () {
@@ -79,7 +77,6 @@ var game = {
       this.loadQs();
       //game.handle(); // send with "dingdingding" var
     } else {
-      console.log("sssssss",this);
       this.stopTheClock();
       this.bounceOut("#question-wrapper");
       setTimeout(function(){
@@ -101,16 +98,10 @@ var game = {
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
 
-    // console.log("before shuffle");
-    // console.log(q.wrongs);
-
     //send q to have answers shuffled
     game.shuffleAry(q);
     var html = `<h1>${q.q}</h1>`;
     $("#q").html(html);
-
-    // console.log("after shuffle");
-    // console.log(q.wrongs);
 
     q.wrongs.forEach(answer => {
       var ans;
@@ -196,19 +187,19 @@ var game = {
 
     //correct answ
     $('[data-truthy="1"]').on("click", function () {
-      selection = true;
+      //send user's answer to writeResult()
+      ///so user's correct ans displays on review pg
+      //++ game level var
       game.cleanupQ()
     })
     //incorrect ans
     $('[data-truthy="0"]').on("click", function () {
-      console.log("wompwomp");
-      selection = true;
+      //send user's answer to writeResult()
+      ///so user's incorrect ans displays on review pg
       game.cleanupQ()
     })
     //next/skip
     $("#next").on("click", function () {
-      console.log("clicked next");
-      selection = true;
       game.cleanupQ()
     })
   },
