@@ -25,7 +25,31 @@ section{
 .review-q{
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  
+  font-size:1.2em;
+}
+
+.correct-ans{
+  background-color:darkseagreen;
+  font-family: 'Lato', sans-serif;
+  display:inline-block;
+  color:black;
+  border-color:black;
+}
+
+.incorrect-ans{
+  background-color:palevioletred;
+  font-family: 'Lato', sans-serif;
+  display:inline-block;
+  color:black;
+  border-color:black;
+}
+
+#key{
+  margin-bottom:20px;
+}
+
+.key{
+  font-size:.7em;
 }
 
 .review-q-ans{

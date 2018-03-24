@@ -41,7 +41,7 @@ var game = {
   intervalId: '',
   new: function () {
     //copy in dictionary vars
-    this.t='';
+    this.t = '';
     this.qna = qna;
     this.numQs = numberQuestions;
 
@@ -79,18 +79,18 @@ var game = {
     } else {
       this.stopTheClock();
       this.bounceOut("#question-wrapper");
-      setTimeout(function(){
+      setTimeout(function () {
         game.bounceIn("#results-wrapper");
         game.wait();
       })
       //gameover
     }
   },
-  wait: function(){
-    $("body").on("click", "#try-again", function(){
+  wait: function () {
+    $("body").on("click", "#try-again", function () {
       game.bounceOut("#results-wrapper");
       //todo: cleanup needs to happen here
-      
+
       game.new();
     })
   },
@@ -120,24 +120,32 @@ var game = {
     game.startTheClock();
     game.handle(q, "");
   },
-  writeResult: function(q, selection){
-    var ques = $("<div class='container mx-auto review-q'>").text(q.q); 
-    
+  writeResult: function (q, selection) {
+    var ques = $("<div class='container mx-auto review-q'>").text(q.q);
+
     var answers = $("<div class='row review-q-ans-wrap'>");
 
     ques.append(answers);
 
     q.wrongs.forEach(answer => {
       var ans = $("<div class='btn'>")
-      .text(answer);
+        .text(answer);
 
-      if (answer == q.a){
-        ans.addClass("review-q-ans-correct");
+      if (answer == q.a) {
+        if (answer == selection) {
+          ans.addClass("correct-ans");
+        } else {
+          ans.addClass("review-q-ans-correct")
+        }
       } else {
-        ans.addClass("review-q-ans");
+        if (answer == selection) {
+          ans.addClass("incorrect-ans");
+        } else {
+          ans.addClass("review-q-ans");
+        }
       }
 
-      answers.append(ans);      
+      answers.append(ans);
     })
 
     $("#results").append(ques);
@@ -172,8 +180,8 @@ var game = {
       $(div).removeClass("bounceOutUp")
       $(div).css("display", "none");
 
-      if (div == "#results-wrapper"){
-        $("#results").text(""); 
+      if (div == "#results-wrapper") {
+        $("#results").text("");
       }
 
 
@@ -181,7 +189,7 @@ var game = {
   },
   handle: function (q, instruction) {
 
-    if (instruction == "skip"){
+    if (instruction == "skip") {
       game.cleanupQ();
     }
 
@@ -246,7 +254,7 @@ var game = {
 
 $(document).ready(function () {
   game.new();
-  $("#test").on("click", function(){
+  $("#test").on("click", function () {
     test();
   })
 })
