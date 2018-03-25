@@ -1,5 +1,25 @@
 # TriviaGame
-## Here we have a nifty js framework for a trivia game. It reads from an array of options with question data. Each question looks something like this. Note the "key" property is not currently in use, but theoretically it could be used to categorize questions (in which case "tags" might be a better name for the property).
+## Here we have a nifty js framework for a trivia game. It reads from an array of options with question data. Each question looks something like this.
+
+```
+var questionsAndAnswers = [
+  q1 = {
+    key: "1",
+    q: "who suffered worst at the hands of togers?",
+    a: "ernie",
+    wrongs: [
+      "bimp",
+      "bramp",
+      "Toger",
+      "glen"
+    ]
+  },
+  
+  ... and so on ...
+  
+  ]
+```
+## Note the "key" property is not currently in use, but theoretically it could be used to categorize questions ("tags" might be a better name for the property).
 
 # Parameters
 ## numberOfQuestions - determines the number of questions per game
