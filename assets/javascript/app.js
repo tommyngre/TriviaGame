@@ -1,6 +1,6 @@
 //remove q from game.qna after asked
 
-var qna = [
+var questionsAndAnswers = [
   q1 = {
     key: "1",
     q: "who suffered worst at the hands of togers?",
@@ -61,11 +61,11 @@ var qna = [
   q6 = {
     key: "6",
     q: "which injury did lorraine not suffer?",
-    a: "car accident",
+    a: "stabbing",
     wrongs: [
       "fire",
       "burial",
-      "stabbing"
+      "car accident"
     ]
   },
   q7 = {
@@ -139,29 +139,135 @@ var qna = [
       "gimpy",
       "garrulous"
     ]
-  }
+  },
+  q13 = {
+    key: "13",
+    q: "what is whitey's real name?",
+    a: "whitney",
+    wrongs: [
+      "whitey",
+      "james joseph",
+      "jane",
+      "flapjack",
+      "big den"
+    ]
+  },
+  q14 = {
+    key: "14",
+    q: "to whom as lorraine not made love?",
+    a: "bimp",
+    wrongs: [
+      "bramp",
+      "glen",
+    ]
+  },
+  q15 = {
+    key: "15",
+    q: "where do toger's come from?",
+    a: "iowa",
+    wrongs: [
+      "south america",
+      "tanzania",
+      "the american southwest",
+      "the dakotas"
+    ]
+  },
+  q16 = {
+    key: "16",
+    q: "who said, 'i'll be a tog' for 'rraine'?",
+    a: "bramp",
+    wrongs: [
+      "glen",
+      "lort",
+      "big den",
+      "ernie"
+    ]
+  },
+  q17 = {
+    key: "17",
+    q: "who wired the cameras in the basement of lort's workplace?",
+    a: "big den",
+    wrongs: [
+      "paul friesen",
+      "paul friesen's mom",
+      "glen",
+      "bramp",
+      "bimp",
+      "jane",
+    ]
+  },
+  q18 = {
+    key: "18",
+    q: "who gave the orders to wire the cameras at lort's workplace?",
+    a: "jane",
+    wrongs: [
+      "paul friesen",
+      "paul friesen's mom",
+      "glen",
+      "bramp",
+      "bimp",
+      "big den"
+    ]
+  },
+  q19 = {
+    key: "19",
+    q: "who gave the orders to wire the cameras at lort's workplace?",
+    a: "jane",
+    wrongs: [
+      "paul friesen",
+      "paul friesen's mom",
+      "glen",
+      "bramp",
+      "bimp",
+      "big den"
+    ]
+  },
+  q19 = {
+    key: "19",
+    q: "fill in the blank: 'one pointed left; the other pointed <blank>'?",
+    a: "down",
+    wrongs: [
+      "right",
+      "forward",
+      "straight",
+      "backward"
+    ]
+  },
+  q20 = {
+    key: "20",
+    q: "what did the togers plan to turn bimp into?",
+    a: "a streetlight",
+    wrongs: [
+      "a slave",
+      "a toger",
+      "a flapjack",
+      "a leader",
+      "an animal",
+      "an scrumptious stew",
+    ]
+  },
 ]
 
-var numberQuestions = 5;
-var numberSeconds = 10;
+var numberOfQuestions = 5;
+var numberOfSeconds = 10;
 
 var score = document.getElementById("score");
 var total = document.getElementById("total");
 
 var game = {
-  numQs: numberQuestions,
+  numQs: numberOfQuestions,
   score:0,
   qna: [],
   q:'',
-  time: numberSeconds,
+  time: numberOfSeconds,
   t: '',
   intervalId: '',
   new: function () {
     //copy in dictionary vars
     this.t = '';
-    this.qna = qna;
+    this.qna = questionsAndAnswers.map(x => x);
     this.q = '';
-    this.numQs = numberQuestions;
+    this.numQs = numberOfQuestions;
     this.score = 0;
 
     //drop in welcome screent
@@ -185,38 +291,35 @@ var game = {
     $("#t").html("<h2>" + game.t + "</h2>");
   },
   stopTheClock: function () {
-    console.log("stop");
     clearInterval(this.intervalId);
   },
   eval: function () {
-    console.log("eval");
     this.stopTheClock();
     $("#a").text("");
 
     if (this.numQs > 0) {
       this.numQs--;
-      this.loadQs();
+      this.loadQuestion();
     } else {
       this.bounceOut("#question-wrapper");
       setTimeout(function () {
         score.textContent=game.score;
-        total.textContent=numberQuestions;
+        total.textContent=numberOfQuestions;
         game.bounceIn("#results-wrapper");
         game.wait();
       })
       //gameover
     }
   },
+  //wait for click on review page
   wait: function () {
-    $("body").on("click", "#try-again", function () {
+    $("body").unbind('click').on("click", "#try-again", function () {
       game.bounceOut("#results-wrapper");
-      //cleanup here?
-
       game.new();
     })
   },
-  loadQs: function () {
-    //get a random q from dictionary ary
+  //load random q from dictionary ary
+  loadQuestion: function () {
     var rnd = Math.floor(Math.random() * game.qna.length);
     var q = this.qna[rnd];
 
@@ -269,31 +372,40 @@ var game = {
       }
       answers.append(ans);
     })
-
     $("#results").append(ques);
+
+    game.removeQuestion(q);
+
   },
+  //remove question from game ary so not asked >1x
+  removeQuestion: function (q){
+    if (this.qna.indexOf(q) > -1){
+      var i = this.qna.indexOf(q);
+      this.qna.splice(i,1);
+    }
+  },
+  //randomize so not always in same order
   shuffleAry: function (q) {
-    ///push q.a to q.wrongs
+    //push correct answer to wrongs
     q.wrongs.push(q.a);
-    //randomize so not always in same order
-    ///h/t stackoverflow how to do w ES6
+    //shuffle
     for (var i = q.wrongs.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
       [q.wrongs[i], q.wrongs[j]] = [q.wrongs[j], q.wrongs[i]];
     }
-
-    // previous loop => duplicates for some reason
+    // previous loop duplicates... ?
     /// this deduplicates
     q.wrongs = Array.from(new Set(q.wrongs));
-
-
   },
+  //new elements transition in
   bounceIn: function (div) {
     setTimeout(function () {
       $(div).addClass("animated bounceInDown")
         .css("display", "block")
     }, 600);
+
   },
+  //new elements transition out
   bounceOut: function (div) {
     $(div).removeClass("bounceInDown")
       .addClass("animated bounceOutUp");
@@ -301,22 +413,23 @@ var game = {
       $(div).removeClass("bounceOutUp")
       $(div).css("display", "none");
 
+      //when out of sight, clear #results
       if (div == "#results-wrapper") {
         $("#results").text("");
       }
     }, 600);
   },
+  //handle user input or timeout
   handle: function (q, instruction) {
 
     //if timer runs out
     if (instruction == "skip") {
-      console.log("skip");
       game.writeResult(q, "null");
       game.cleanupQ();
     }
 
     //correct answ
-    $('[data-truthy="1"]').on("click", function () {
+    $('[data-truthy="1"]').unbind('click').on("click", function () {
       var selection = this.textContent;
       game.writeResult(q, selection);
       //++ game level var
@@ -326,7 +439,7 @@ var game = {
     })
 
     //incorrect ans
-    $('[data-truthy="0"]').on("click", function () {
+    $('[data-truthy="0"]').unbind('click').on("click", function () {
       var selection = this.textContent;
       game.writeResult(q, selection)
       game.cleanupQ()
@@ -334,13 +447,12 @@ var game = {
 
     //next/skip
     $("#next").unbind('click').on("click", function () {
-      console.log("next");
       game.writeResult(q, "null");
       game.cleanupQ();
     })
   },
+  //clear q elements when out of sight
   cleanupQ: function () {
-    console.log("cleanup");
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
@@ -350,12 +462,8 @@ var game = {
   },
 }
 
-// function test(){
-// }
-
 $(document).ready(function () {
   game.new();
   $("#test").on("click", function () {
-    // test();
   })
 })
