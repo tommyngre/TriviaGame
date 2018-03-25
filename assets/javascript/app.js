@@ -1,5 +1,3 @@
-//remove q from game.qna after asked
-
 var questionsAndAnswers = [
   q1 = {
     key: "1",
@@ -104,7 +102,7 @@ var questionsAndAnswers = [
   },
   q10 = {
     key: "10",
-    q: "who was known as 'the flapjack pimp'?",
+    q: "who was known as &quot;the flapjack pimp&quot;?",
     a: "bimp",
     wrongs: [
       "big den",
@@ -129,7 +127,7 @@ var questionsAndAnswers = [
   },
   q12 = {
     key: "12",
-    q: "what does the 'G' in T.O.G.E.R. stand for?",
+    q: "what does the &quot;G&quot; in T.O.G.E.R. stand for?",
     a: "googly",
     wrongs: [
       "greater",
@@ -174,7 +172,7 @@ var questionsAndAnswers = [
   },
   q16 = {
     key: "16",
-    q: "who said, 'i'll be a tog' for 'rraine'?",
+    q: "who said, &quot;i'll be a tog' for 'rraine&quot;?",
     a: "bramp",
     wrongs: [
       "glen",
@@ -224,7 +222,7 @@ var questionsAndAnswers = [
   },
   q19 = {
     key: "19",
-    q: "fill in the blank: 'one pointed left; the other pointed <blank>'?",
+    q: "fill in the blank: &quot;one pointed left; the other pointed __________&quot;?",
     a: "down",
     wrongs: [
       "right",
@@ -243,10 +241,25 @@ var questionsAndAnswers = [
       "a flapjack",
       "a leader",
       "an animal",
-      "an scrumptious stew",
+      "a scrumptious stew",
     ]
   },
 ]
+
+// var colors = [
+//   "#ECDB54",
+//   "#E94B3C",
+//   "#DBB1CD",
+//   "#EC9787",
+//   "#00A591",
+//   "#BC70A4",
+//   "#BFD641",
+//   "#F6D155",
+//   "#95DEE3",
+//   "#EDCDC2",
+//   "#F2552C",
+//   "#D8AE47"
+// ];
 
 var numberOfQuestions = 5;
 var numberOfSeconds = 10;
@@ -410,6 +423,8 @@ var game = {
     $(div).removeClass("bounceInDown")
       .addClass("animated bounceOutUp");
     setTimeout(function () {
+      // var color = colors[Math.round(Math.random() * colors.length)];
+      // $("body").css("background-color",color);
       $(div).removeClass("bounceOutUp")
       $(div).css("display", "none");
 
@@ -456,6 +471,8 @@ var game = {
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
+      // var color = colors[Math.round(Math.random() * colors.length)];
+      // $("body").css("background-color",color);
       game.bounceIn("#question-wrapper");
       game.eval();
     }, 600);
