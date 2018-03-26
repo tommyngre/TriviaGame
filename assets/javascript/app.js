@@ -102,7 +102,7 @@ var questionsAndAnswers = [
   },
   q10 = {
     key: "10",
-    q: "who was known as &quot;the flapjack pimp&quot;?",
+    q: "who was known as ''the flapjack pimp''?",
     a: "bimp",
     wrongs: [
       "big den",
@@ -127,7 +127,7 @@ var questionsAndAnswers = [
   },
   q12 = {
     key: "12",
-    q: "what does the &quot;G&quot; in T.O.G.E.R. stand for?",
+    q: "what does the 'G' in T.O.G.E.R. stand for?",
     a: "googly",
     wrongs: [
       "greater",
@@ -172,7 +172,7 @@ var questionsAndAnswers = [
   },
   q16 = {
     key: "16",
-    q: "who said, &quot;i'll be a tog' for 'rraine&quot;?",
+    q: "who said, ''i'll be a tog' for 'rraine''?",
     a: "bramp",
     wrongs: [
       "glen",
@@ -209,20 +209,7 @@ var questionsAndAnswers = [
   },
   q19 = {
     key: "19",
-    q: "who gave the orders to wire the cameras at lort's workplace?",
-    a: "jane",
-    wrongs: [
-      "paul friesen",
-      "paul friesen's mom",
-      "glen",
-      "bramp",
-      "bimp",
-      "big den"
-    ]
-  },
-  q19 = {
-    key: "19",
-    q: "fill in the blank: &quot;one pointed left; the other pointed __________&quot;?",
+    q: "fill in the blank: ''one pointed left; the other pointed __________''?",
     a: "down",
     wrongs: [
       "right",
@@ -246,20 +233,21 @@ var questionsAndAnswers = [
   },
 ]
 
-// var colors = [
-//   "#ECDB54",
-//   "#E94B3C",
-//   "#DBB1CD",
-//   "#EC9787",
-//   "#00A591",
-//   "#BC70A4",
-//   "#BFD641",
-//   "#F6D155",
-//   "#95DEE3",
-//   "#EDCDC2",
-//   "#F2552C",
-//   "#D8AE47"
-// ];
+var colors = [
+  "rgba(236, 219, 84,.4)",
+  "rgba(233, 75, 60,.4)",
+  "rgba(219, 177, 205,.4)",
+  "rgba(236, 151, 135,.4)",
+  "rgba(0, 165, 145,.4)",
+  "rgba(188, 112, 164,.4)",
+  "rgba(191, 214, 65,.4)",
+  "rgba(246, 209, 85,.4)",
+  "rgba(149, 222, 227,.4)",
+  "rgba(237, 205, 194,.4)",
+  "rgba(242, 85, 44,.4)",
+  "rgba(216, 174, 71,.4)"
+];
+
 
 var numberOfQuestions = 5;
 var numberOfSeconds = 10;
@@ -361,7 +349,6 @@ var game = {
   },
   writeResult: function (q, selection) {
     var ques = $("<div class='container mx-auto review-q'>").text(q.q);
-
     var answers = $("<div class='row review-q-ans-wrap'>");
 
     ques.append(answers);
@@ -423,8 +410,6 @@ var game = {
     $(div).removeClass("bounceInDown")
       .addClass("animated bounceOutUp");
     setTimeout(function () {
-      // var color = colors[Math.round(Math.random() * colors.length)];
-      // $("body").css("background-color",color);
       $(div).removeClass("bounceOutUp")
       $(div).css("display", "none");
 
@@ -471,8 +456,8 @@ var game = {
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
-      // var color = colors[Math.round(Math.random() * colors.length)];
-      // $("body").css("background-color",color);
+      var color = colors[Math.round(Math.random() * colors.length)];
+      $("body").css("background-color",color);
       game.bounceIn("#question-wrapper");
       game.eval();
     }, 600);

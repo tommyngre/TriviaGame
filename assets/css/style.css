@@ -1,6 +1,11 @@
 body{
   width:100%;
 }
+.bg{
+ height:100%;
+ width:100%;
+ opacity:.2; 
+}
 
 section{
   position:relative;
@@ -9,6 +14,10 @@ section{
 
 #results-wrapper, #welcome-wrapper, #question-wrapper{
   display:none;
+}
+
+.btn-outline-primary{
+  background-color:white;
 }
 
 .btn{
@@ -59,8 +68,9 @@ section{
 .review-q-ans{
   font-family: 'Lato', sans-serif;
   display:inline-block;
-  color:lightgray;
-  border-color:lightgray;
+  color:lightslategray;
+  border-color:lightslategrey;
+  background-color:white;
 }
 
 .review-q-ans-correct{
@@ -68,6 +78,7 @@ section{
   display:inline-block;
   color:black;
   border-color:black;
+  background-color:white;
 }
 
 
