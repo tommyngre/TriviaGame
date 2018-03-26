@@ -257,9 +257,9 @@ var total = document.getElementById("total");
 
 var game = {
   numQs: numberOfQuestions,
-  score:0,
+  score: 0,
   qna: [],
-  q:'',
+  q: '',
   time: numberOfSeconds,
   t: '',
   intervalId: '',
@@ -304,8 +304,8 @@ var game = {
     } else {
       this.bounceOut("#question-wrapper");
       setTimeout(function () {
-        score.textContent=game.score;
-        total.textContent=numberOfQuestions;
+        score.textContent = game.score;
+        total.textContent = numberOfQuestions;
         game.bounceIn("#results-wrapper");
         game.wait();
       })
@@ -378,10 +378,10 @@ var game = {
 
   },
   //remove question from game ary so not asked >1x
-  removeQuestion: function (q){
-    if (this.qna.indexOf(q) > -1){
+  removeQuestion: function (q) {
+    if (this.qna.indexOf(q) > -1) {
       var i = this.qna.indexOf(q);
-      this.qna.splice(i,1);
+      this.qna.splice(i, 1);
     }
   },
   //randomize so not always in same order
@@ -416,6 +416,9 @@ var game = {
       //when out of sight, clear #results
       if (div == "#results-wrapper") {
         $("#results").text("");
+      } else {
+        var color = colors[Math.round(Math.random() * colors.length)];
+        $("body").css("background-color", color);
       }
     }, 600);
   },
@@ -456,8 +459,6 @@ var game = {
     this.bounceOut("#question-wrapper");
     setTimeout(function () {
       $("#a").text("");
-      var color = colors[Math.round(Math.random() * colors.length)];
-      $("body").css("background-color",color);
       game.bounceIn("#question-wrapper");
       game.eval();
     }, 600);
